@@ -1,6 +1,6 @@
 %setup_InvRand
 %% main for testing convergence
-n =100;    %select dimension
+n = 1000;    %select dimension
 A = randn(n,n);   % randn(n,n)
 Prob.A = (A')*A;      % symmetric postive definite matrix
 Prob.title =[ 'randn-' num2str(n)];

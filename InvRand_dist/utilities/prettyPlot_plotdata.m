@@ -14,7 +14,7 @@ options.markers= markers(1:lO);
 options.colors = lines(lO);
 options.xlabel = 'time (s)';
 %options.xlabel = 'iterations';
-options.ylabel ='\rho_k-lower';
+options.ylabel ='Tr(AX_k)';
 
 
 if(isfield(opts,'ylimits'))

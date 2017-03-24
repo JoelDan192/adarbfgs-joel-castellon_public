@@ -94,7 +94,7 @@ ogs = [ogs(1) ogs];
 output.flopsperiter = options.flopsperiter;
 output.times = [ 0 times];
 %output.errors = [1 errors];
-output.errors = nums./dens;
+output.errors = dens;
 
 output.name = options.name;
 end
