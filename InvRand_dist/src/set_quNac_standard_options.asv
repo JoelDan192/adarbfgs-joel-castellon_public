@@ -4,9 +4,9 @@ if(~isfield(options,'n'))
     options.n = length(A);
 end
 if(~isfield(options,'p'))
-    %options.p = ceil(sqrt(options.n));%min(3*ceil(sqrt(options.n)),ceil(options.n/2));
+    options.p = ceil(sqrt(options.n));%min(3*ceil(sqrt(options.n)),ceil(options.n/2));
     %options.p = ceil(log(options.n));
-    options.p=1;
+    %options.p=1;
 end
 
 end

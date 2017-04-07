@@ -20,6 +20,7 @@ end
 nums = [];
 dens = [];
 ogs = [];
+%options.Sk = randsample(options.n,options.p);
 for i = 1:iter
     if (mod(i,30)==1)
         display(options.name);
@@ -28,7 +29,7 @@ for i = 1:iter
     fprintf('%3.0d  | %3.2f%%   |  %3.4f \n',i,100*errors(i),times(i) );
     tic;
     
-    M = iter_func(Prob.A,M,options);
+    M = iter_func(Prob.A, M,options);
     p = ceil(sqrt(length(Prob.A)));
     rdivs = 1:size(M,2);
     rdivs = rdivs(rem(size(M,2),rdivs)==0);
@@ -93,8 +94,8 @@ ogs = [ogs(1) ogs];
 
 output.flopsperiter = options.flopsperiter;
 output.times = [ 0 times];
-%output.errors = [1 errors];
-output.errors = dens;
+output.errors = [1 errors];
+%output.errors = 1-nums./dens;
 
 output.name = options.name;
 end

@@ -19,13 +19,13 @@ options.M0 = 1;%;'identity_proj'; %% NewtonShulz
 %[M, MRoutput] = invert_matrix(Prob, @iter_MRGlobal, @boot_MRGlobal,iter,test, options );
 %OUTPUTS = [ OUTPUTS ; MRoutput];
 %% AdaRBFGS_cols
-options.M0 = 10;
+options.M0 = 1;
 options.factored =1;
 options.sample_method = 'cols';  
 [M, colsoutput] = invert_matrix(Prob, @iter_COBFGS, @boot_COBFGS,iter,test, options );
 OUTPUTS = [ OUTPUTS ; colsoutput];
 %% AdaRBFGS_gauss
-options.M0 = 10;
+options.M0 = 1;
 options.factored =1;
 options.sample_method = 'gauss';  
 [M, gaussoutput] = invert_matrix(Prob, @iter_COBFGS, @boot_COBFGS,iter,test, options );
