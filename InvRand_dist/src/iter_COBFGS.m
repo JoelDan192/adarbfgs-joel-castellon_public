@@ -1,11 +1,16 @@
-function L= iter_COBFGS(A,L, options)
+function L= iter_COBFGS(A,L,options,probs)
 %%  Updates Factored form using Sampled action of Factored form.
-if(strcmp(options.sample_method,'cols'))  % Sample Columns of Factored form
-    s = randsample(options.n,options.p);
+if(contains(options.sample_method,'cols'))  % Sample Columns of Factored form
+    %j = randsample(options.n/options.p, 1);
+    [val, sidx] = max(rand<cumsum(probs));
+    j=sidx;
+    j=j-1;
+    from = 1+j*options.p;
+    to = (j+1)*options.p;
+    s=from:to;
     R = L(:,s);    AR =A*R;
     L=chol_quNac_L_cols(s,AR,L);
-else
-    % Gaussian samples 
+else % Gaussian samples 
     S = randn(options.n,options.p);
     R = L*S;    AR =A*R;
     L= chol_quNac_L_sample(S,R,AR,L);

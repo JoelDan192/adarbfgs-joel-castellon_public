@@ -118,8 +118,6 @@ for i = 1:nLines
     
     % Plot
     h(i) = plotFunc(x{i},y{i},defaultStyle);
-    
-    %h(i) = plotFunc(1:size(y{i},2),y{i},defaultStyle);
     hold on;
 end
 

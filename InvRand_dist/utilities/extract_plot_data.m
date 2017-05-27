@@ -15,6 +15,7 @@ for i =1:lO
         grid = 1:1:lent(i);
     end
     ERRORS = [ERRORS ; OUTPUTS{i}.errors(grid)];
+    ERRORS1 = [ERRORS ; OUTPUTS{i}.errors(grid)+0.4];
     TIMES = [TIMES; OUTPUTS{i}.times(grid)];
     EXTRAFIELD =  [EXTRAFIELD;   eval([ 'OUTPUTS{i}.' extrafield])];
     legendStr = [legendStr ; OUTPUTS{i}.name];

@@ -14,9 +14,7 @@ options.markers= markers(1:lO);
 options.colors = lines(lO);
 options.xlabel = 'time (s)';
 %options.xlabel = 'iterations';
-options.ylabel ='||AX_k-I||';
-
-
+options.ylabel ='1-\lambda_{min}k';
 if(isfield(opts,'ylimits'))
     options.ylimits = [max(10^(-3),min(lowERROR)*(1-0.25)) inf];
    % options.ylimits = [5*10^(-3) inf];
@@ -33,6 +31,7 @@ path = [ 'figures/' plotdata.title ]
 FigHandle = figure('Position', [0, 0, 750, 300]);
 subplot(1,2,1);  %set(gca, 'Position', [0 0 200 400])
 prettyPlot(plotdata.TIMES,plotdata.ERRORS, options);
+%prettyPlot(plotdata.TIMES,plotdata.ERRORS1, options);
 set(gca,'defaultTextFontName', 'Arial')
 set(gca,'fontsize',15)
 xlhand = get(gca,'xlabel');  set(xlhand,'fontsize',15) ;
@@ -45,6 +44,7 @@ options= rmfield(options,'ylabel');
 options.legend = plotdata.legend;
 options.xlabel = 'flops';
 prettyPlot(flops ,plotdata.ERRORS, options);
+%prettyPlot(flops ,plotdata.ERRORS1, options);
 set(gca,'defaultTextFontName', 'Arial')
 set(gca,'fontsize',15)
 xlhand = get(gca,'xlabel');  set(xlhand,'fontsize',15) ;

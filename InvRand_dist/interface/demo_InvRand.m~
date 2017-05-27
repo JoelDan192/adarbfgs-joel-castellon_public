@@ -122,10 +122,10 @@ OUTPUTS = [ OUTPUTS ; colsoutput1];
 % xlabel('iterations')
 % set(gca, 'YScale', 'log')
 % % 
-% hold off
+hold off
 % % xlabel('iterations')
 
-%legend('show','Location','southeast')
+legend('show','Location','southeast')
 
 
 
@@ -137,8 +137,7 @@ plot(ax1,OUTPUTS{1}.errors1,'DisplayName','1-\rho_{lower}');
 hold on
 plot(ax1,OUTPUTS{1}.errors2,'DisplayName','1-\rho');
 plot(ax1,OUTPUTS{1}.errors3,'DisplayName','1-\rho_{upper}');
-title('p_i = tr(S_i^TAS_i)/tr(S^TAS)')
-xlabel('time (ms)')
+title('p_i = \lambda_{max}(S_i^TAS_i)/\lambda_{max}(S^TAS)')
 set(gca, 'YScale', 'log')
 
 % 
@@ -147,17 +146,14 @@ hold off
 % legend('show','Location','southeast')
 % %ylim([0, 0.9e-1])
 % 
-
+% 
 subplot(1,2,2)
-ax1=OUTPUTS{1}.flopsperiter*(1:size(OUTPUTS{1}.errors1,2));
-figure
+%ax1=OUTPUTS{1}.flopsperiter*(1:size(OUTPUTS{1}.errors1,2));
 ax1=1:size(OUTPUTS{1}.errors1,2);
-plot(ax1,OUTPUTS{1}.errors1,'DisplayName','above 1');
+plot(ax1,OUTPUTS{1}.errors1,'DisplayName','1-\rho_{lower}');
 hold on
-plot(ax1,OUTPUTS{1}.errors2,'DisplayName','at 1');
-plot(ax1,OUTPUTS{1}.errors3,'DisplayName','below 1');
-title('Count of eigenvalues (n=600)')
-xlabel('iterations')
+plot(ax1,OUTPUTS{1}.errors2,'DisplayName','1-\rho');
+plot(ax1,OUTPUTS{1}.errors3,'DisplayName','1-\rho_{upper}');
 set(gca, 'YScale', 'log')
 % 
 hold off
