@@ -1,7 +1,7 @@
 % A wrapper function for testing and timing iterative methods for
 % inverting a matrix - 2015 - Robert M. Gower
 % InvRand Copyright (C) 2016, Robert Gower 
-function [M, output] = invert_matrix(Prob, iter_func, boot_func, iter,test,options )
+function [M, output, eigs] = invert_matrix(Prob, iter_func, boot_func, iter,test,options )
 tic;
 M = boot_func(Prob.A,options);  %M = full(M);
 
@@ -25,8 +25,8 @@ spec1_z = [];
 spec2_z = [];
 max_ps = [];
 min_ps = [];
-
-[probs D] = complete_dicrete_sampling(Prob.A,M,options.p,'max');
+all_eigs = [];
+[probs D] = complete_dicrete_sampling(Prob.A,M,options.p,'tr');
 times(1) = toc;
 %options.Sk = randsample(options.n,options.p);
 for i = 1:iter
@@ -39,7 +39,7 @@ for i = 1:iter
     M = iter_func(Prob.A, M,options,probs);
     times(i+1)= times(i) +  toc;
     
-    [probs D] = complete_dicrete_sampling(Prob.A,M,options.p,'max');
+    [probs D] = complete_dicrete_sampling(Prob.A,M,options.p,'tr');
     r = size(M,2)/options.p;
     min_ps(end+1)=min(probs);
     max_ps(end+1)=max(probs);
@@ -47,27 +47,28 @@ for i = 1:iter
     
     D = blkdiag(tmp{:});
     Xk = M*M';
-    AX = Xk*Prob.A;
+    AX = ((Prob.A)^(1/2))*Xk*((Prob.A)^(1/2));
     options1.tol = 1e-3;
     Z = ((Prob.A)^(1/2))*M*(D^2)*(M')*((Prob.A)^(1/2));
     e_z = real(eig(Z));
     e_ax = real(eig(AX));
+    all_eigs = [all_eigs; sort(e_ax')];
     inv_zmd = sqrtm(inv(Prob.A))*inv(M')*inv(M)*sqrtm(inv(Prob.A));
     
     band = 1e-3;
-    %lo_e_ax(end+1) = sum((1-e_ax)>band);%<1
-    %mi_e_ax(end+1) = sum(abs(e_ax-1)< band);%1
-    %up_e_ax(end+1) = sum((e_ax-1)>band); %>1
+    lo_e_ax(end+1) = sum((1-e_ax)>band);%<1
+    mi_e_ax(end+1) = sum(abs(e_ax-1)< band);%1
+    up_e_ax(end+1) = sum((e_ax-1)>band); %>1
     
     %lo_e_ax(end+1) = real(min(diag(Z)));
     %e_ax_i = wrev(eig(inv_zmd));
     %e_prod = e_z.*e_ax_i;
     %lo_e_ax(end+1) = (trace(D^2)-sum(e_prod(2:end)))/e_ax_i(1);
     
-    lo_e_ax(end+1) = trace(D^2)/trace(inv_zmd);
-    mi_e_ax(end+1) = min(e_z);
+    %lo_e_ax(end+1) = trace(D^2)/trace(inv_zmd);
+    %mi_e_ax(end+1) = min(e_z);
     %up_e_ax(end+1) = min(e_ax)/sum(e_ax);
-    up_e_ax(end+1) = min(e_ax)/max(e_ax);
+    %up_e_ax(end+1) = min(e_ax)/max(e_ax);
     
     spec1_z(end+1) = max(e_z);
     spec2_z(end+1) = max_ps(end);
@@ -80,7 +81,7 @@ for i = 1:iter
         else
             errors(i+1) = norm(Ident -M*Prob.A,'fro')/initial_error;
         end
-        if(errors(i+1)/100 < 10^(-5))
+        if(errors(i+1)/100 < 10^(-4))
             output.fail =0;
             break;
         end
@@ -133,6 +134,7 @@ output.times = [ 0 times];
 output.errors1 = lo_e_ax;
 output.errors2 = mi_e_ax;
 output.errors3 = up_e_ax;
+eigs = all_eigs;
 % uno=up_e_ax(end)
 % dos=1/length(Prob.A)
 %output.errors1=spec1_z;
